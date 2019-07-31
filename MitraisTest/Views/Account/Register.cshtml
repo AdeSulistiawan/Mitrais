@@ -1,0 +1,173 @@
+﻿@model MitraisTest.Models.RegisterViewModel
+@{
+    ViewBag.Title = "Registration";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    <style type="text/css">
+        body {
+            background-color: #FAFAFA;
+        }
+
+        .box {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn {
+            background-color: #9C27B0;
+            color: white;
+        }
+
+        footer {
+            background-color: #9C27B0;
+            color: white;
+            height: 70px;
+        }
+
+            footer > p {
+                text-align: center;
+            }
+        .field-validation-error {
+
+            font-family: Helvetica;
+            font-size: 13px;
+            font-weight: bold;
+            color: white;
+            line-height: 20px;
+
+            background-color: #F44336;
+            border: 1px solid #222222;
+            border-radius: 7px;
+            -moz-border-radius: 7px;
+            -webkit-border-radius: 7px;
+
+            float: right;
+            position: relative;
+            padding: 7px 11px 4px;
+            margin-bottom: 10px; 
+        }
+
+            .field-validation-error:after, .field-validation-error:before {
+                content: '';
+                border: 7px solid transparent;
+                position: absolute;
+            }
+
+            .field-validation-error:before {
+                border-top: 7px solid #F44336;
+                bottom: -15px;
+            }
+    </style>
+</head>
+<body>
+    <div class="container body-content">
+        <div class="box">
+            <div class="form-registration col-md-5 col-md-offset-2">
+                <h2>@ViewBag.Title.</h2>
+
+                @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form", id = "register-form" }))
+                {
+                    @Html.AntiForgeryToken()
+                    <div class="form-group">
+                        <div class="col-md-10">
+                            @Html.ValidationMessageFor(m => m.PhoneNumber, "", new { @class = "text-danger" })
+                            @Html.TextBoxFor(m => m.PhoneNumber, new { @class = "form-control", @placeholder = "Mobile Number" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-10">
+                            @Html.ValidationMessageFor(m => m.FirstName, "", new { @class = "text-danger" })
+                            @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control", @placeholder = "First Name" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-10">
+                            @Html.ValidationMessageFor(m => m.LastName, "", new { @class = "text-danger" })
+                            @Html.TextBoxFor(m => m.LastName, new { @class = "form-control", @placeholder = "Last Name" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-10">
+                            @Html.ValidationMessageFor(m => m.DateOfBirth, "", new { @class = "text-danger" })
+                            @Html.TextBoxFor(model => model.DateOfBirth, new { @class = "form-control", type = "date" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-10">
+                            @Html.ValidationMessageFor(m => m.Gender, "", new { @class = "text-danger" })
+                            @Html.RadioButtonFor(m => m.Gender, "Male", new { @class = "" }) Male
+                            @Html.RadioButtonFor(m => m.Gender, "Female", new { @class = "" }) Female
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-10">
+                            @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+                            @Html.TextBoxFor(m => m.Email, new { @class = "form-control", @placeholder = "Email" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-10">
+                            @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                            @Html.PasswordFor(m => m.Password, new { @class = "form-control", @placeholder = "Password" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-10">
+                            @Html.ValidationMessageFor(m => m.ConfirmPassword, "", new { @class = "text-danger" })
+                            @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control", @placeholder = "Confirm Password" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-10">
+                            <input type="submit" class="btn btn-block" id="btn-register" value="Register" />
+                        </div>
+                    </div>
+                }
+
+                <div>
+                    <div>
+                        <input type="button" class="btn btn-block" id="btn-login" value="Login" />
+                    </div>
+                </div>  
+            </div>
+        </div>
+    </div>
+    <hr />
+    <footer>
+        <p>&copy; @DateTime.Now.Year - Footer</p>
+    </footer>
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+
+    @section Scripts {
+        @Scripts.Render("~/bundles/jqueryval")
+    }
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var success = @((TempData["Message"] != null).ToString().ToLower());
+            $('#btn-login').hide();
+            if (success == true) {
+                $("#register-form :input").prop("disabled", true);
+                $('#btn-login').show();
+            }
+            $("#btn-login").click(function () {
+                window.location.href = '@Url.Action("/Login")';
+            });
+        });
+
+    </script>
+</body>
+</html>
