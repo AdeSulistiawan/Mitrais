@@ -141,7 +141,7 @@
                     <div>
                         <input type="button" class="btn btn-block" id="btn-login" value="Login" />
                     </div>
-                </div>  
+                </div>
             </div>
         </div>
     </div>
@@ -155,12 +155,14 @@
     @section Scripts {
         @Scripts.Render("~/bundles/jqueryval")
     }
+    <script src="~/Scripts/notify.min.js"></script>
     <script type="text/javascript">
         $(document).ready(function () {
             var success = @((TempData["Message"] != null).ToString().ToLower());
             $('#btn-login').hide();
             if (success == true) {
                 $("#register-form :input").prop("disabled", true);
+                $.notify("Succes Registered", "success");
                 $('#btn-login').show();
             }
             $("#btn-login").click(function () {
